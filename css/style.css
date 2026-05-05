@@ -143,9 +143,7 @@ p { font-size: 1rem; color: var(--gray-700); }
 .topbar a:hover { opacity: 1; color: var(--gold); }
 .topbar svg { width: 14px; height: 14px; fill: currentColor; }
 @media (max-width: 768px) {
-  .topbar { font-size: 12px; }
-  .topbar__group { gap: 14px; }
-  .topbar__group--social { display: none; }
+  .topbar { display: none; }
 }
 
 /* ============ HEADER ============ */
