@@ -90,4 +90,72 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  /* ── Before/After slider (pointer events + rAF) ── */
+  document.querySelectorAll('[data-ba]').forEach(function (container) {
+    const after   = container.querySelector('.before-after__after');
+    const divider = container.querySelector('.before-after__divider');
+    const handle  = container.querySelector('.before-after__handle');
+    let dragging  = false;
+    let pendingPct = null;
+    let rafId = 0;
+
+    function apply(pct) {
+      const pctStr = pct + '%';
+      after.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+      divider.style.left   = pctStr;
+      handle.style.left    = pctStr;
+    }
+
+    function schedule(pct) {
+      pendingPct = Math.max(2, Math.min(98, pct));
+      if (rafId) return;
+      rafId = requestAnimationFrame(function () {
+        rafId = 0;
+        if (pendingPct !== null) apply(pendingPct);
+      });
+    }
+
+    function getPercent(e) {
+      const rect = container.getBoundingClientRect();
+      return ((e.clientX - rect.left) / rect.width) * 100;
+    }
+
+    container.addEventListener('pointerdown', function (e) {
+      dragging = true;
+      container.setPointerCapture(e.pointerId);
+      container.classList.add('is-dragging');
+      schedule(getPercent(e));
+      e.preventDefault();
+    });
+    container.addEventListener('pointermove', function (e) {
+      if (dragging) schedule(getPercent(e));
+    });
+    function stop(e) {
+      if (!dragging) return;
+      dragging = false;
+      container.classList.remove('is-dragging');
+      try { container.releasePointerCapture(e.pointerId); } catch (_) {}
+    }
+    container.addEventListener('pointerup', stop);
+    container.addEventListener('pointercancel', stop);
+    container.addEventListener('pointerleave', stop);
+  });
+
+  /* ── Video Sound Toggle ── */
+  document.querySelectorAll('.video-sound').forEach(function (btn) {
+    const video = btn.closest('.video-wrap').querySelector('video');
+    if (!video) return;
+    video.muted = true;
+    btn.setAttribute('aria-pressed', 'false');
+    btn.addEventListener('click', function () {
+      video.muted = !video.muted;
+      btn.setAttribute('aria-pressed', video.muted ? 'false' : 'true');
+      btn.setAttribute('aria-label', video.muted ? 'Unmute video' : 'Mute video');
+      if (!video.muted) {
+        const p = video.play();
+        if (p && p.catch) p.catch(function () {});
+      }
+    });
+  });
+
 });
