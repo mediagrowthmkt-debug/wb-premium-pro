@@ -152,7 +152,7 @@
             <form data-feedback action="#" method="POST">
               <div class="form__row">
                 <div class="form__field"><label for="h-name">Full Name *</label><input type="text" id="h-name" name="name" required placeholder="John Smith"></div>
-                <div class="form__field"><label for="h-phone">Phone *</label><input type="tel" id="h-phone" name="phone" required placeholder="(617) 555-0100"></div>
+                <div class="form__field"><label for="h-phone">Phone (optional)</label><input type="tel" id="h-phone" name="phone" placeholder="(617) 555-0100"></div>
               </div>
               <div class="form__field"><label for="h-email">Email *</label><input type="email" id="h-email" name="email" required placeholder="john@email.com"></div>
               <div class="form__row">
@@ -189,8 +189,19 @@
                 </select>
               </div>
               <div class="form__field"><label for="h-msg">Tell us about your project</label><textarea id="h-msg" name="message" placeholder="Describe what you're looking to do..."></textarea></div>
+              <!-- A2P consent — telefone opcional + 2 checkboxes separados, não pré-marcados -->
+              <div class="form__consent" style="margin:18px 0; display:flex; flex-direction:column; gap:12px;">
+                <label style="display:flex; gap:10px; align-items:flex-start; font-size:13px; line-height:1.5; color:var(--gray-700);">
+                  <input type="checkbox" name="consent_transactional" value="yes" style="margin-top:3px; flex-shrink:0;">
+                  <span>By checking this box, I consent to receive transactional text messages related to my estimate, appointments, or services I have requested from Premium Painting &amp; Carpentry Corp (DBA Premium Pro Contractors), including reminders, confirmations, and project updates. Message frequency may vary. Message &amp; data rates may apply. Reply HELP for help or STOP to opt out.</span>
+                </label>
+                <label style="display:flex; gap:10px; align-items:flex-start; font-size:13px; line-height:1.5; color:var(--gray-700);">
+                  <input type="checkbox" name="consent_marketing" value="yes" style="margin-top:3px; flex-shrink:0;">
+                  <span>By checking this box, I consent to receive marketing and promotional text messages, including special offers and seasonal updates, from Premium Painting &amp; Carpentry Corp (DBA Premium Pro Contractors). Message frequency may vary. Message &amp; data rates may apply. Reply HELP for help or STOP to opt out.</span>
+                </label>
+              </div>
               <button class="btn btn--primary btn--block" type="submit">Send My Free Estimate Request</button>
-              <p class="form__note">We respect your privacy. Your information is only used to contact you about your project and is never shared with third parties.</p>
+              <p class="form__note">The phone field is optional and consent to texts is not required to request an estimate. See our <a href="privacy-policy.html">Privacy Policy</a> and <a href="terms.html">Terms &amp; Conditions</a>.</p>
             </form>
             <div class="form__success" style="display:none; padding: 20px 0; text-align:center;">
               <p style="font-size:1.1rem; font-weight:700; color:#16a34a; margin-bottom:8px;">✅ Request Received!</p>
@@ -763,8 +774,8 @@
         </div>
       </div>
       <div class="footer__bottom">
-        <span>© 2026 Premium Pro Contractors. All rights reserved. · Massachusetts HIC Licensed &amp; Insured</span>
-        <span><a href="#">Privacy Policy</a> · <a href="#">Terms of Use</a></span>
+        <span>© 2026 Premium Pro Contractors — a DBA of Premium Painting &amp; Carpentry Corp. All rights reserved. · Massachusetts HIC Licensed &amp; Insured</span>
+        <span><a href="privacy-policy.html">Privacy Policy</a> · <a href="terms.html">Terms of Use</a></span>
       </div>
     </div>
   </footer>
