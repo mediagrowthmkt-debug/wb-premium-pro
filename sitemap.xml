@@ -14,7 +14,13 @@
   <url><loc>https://premiumprocontractors.com/services/drywall-insulation</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://premiumprocontractors.com/services/framing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://premiumprocontractors.com/services/power-washing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://premiumprocontractors.com/service-areas</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://premiumprocontractors.com/service-areas</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://premiumprocontractors.com/service-areas/peabody</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://premiumprocontractors.com/service-areas/marblehead</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://premiumprocontractors.com/service-areas/beverly</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://premiumprocontractors.com/service-areas/salem</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://premiumprocontractors.com/service-areas/lynnfield</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://premiumprocontractors.com/service-areas/north-shore</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://premiumprocontractors.com/reviews</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://premiumprocontractors.com/contact</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://premiumprocontractors.com/free-estimate</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
