@@ -58,14 +58,114 @@ document.addEventListener('DOMContentLoaded', function () {
     }, { passive: true });
   }
 
-  /* ── Form submit feedback ── */
+  /* ── Site forms → CRM webhook ── */
+  const CRM_WEBHOOK_URL = window.PREMIUM_PRO_CRM_WEBHOOK_URL ||
+    'https://mediagrowth-n8n.63kuy3.easypanel.host/webhook/premium-pro-site-lead';
+
+  function detectLeadPlatform() {
+    const url = window.location.href.toLowerCase();
+    const params = new URLSearchParams(window.location.search);
+    const utmSource = (params.get('utm_source') || '').toLowerCase();
+    const utmMedium = (params.get('utm_medium') || '').toLowerCase();
+
+    if (utmSource.includes('google') || utmMedium.includes('cpc') || utmMedium.includes('ppc') || url.includes('google')) {
+      return 'GOOGLE';
+    }
+    if (utmSource.includes('meta') || utmSource.includes('facebook') || utmSource.includes('instagram') || url.includes('meta')) {
+      return 'META';
+    }
+    if (utmSource.includes('tiktok') || url.includes('tiktok')) return 'TIKTOK';
+    if (utmSource.includes('linkedin') || url.includes('linkedin')) return 'LINKEDIN';
+    return 'ORGANIC';
+  }
+
+  function getFormMessage(form, selector) {
+    return form.querySelector(selector) || form.parentElement.querySelector(selector);
+  }
+
+  function getCheckedValue(form, name) {
+    return form.querySelector('[name="' + name + '"]')?.checked ? 'yes' : 'no';
+  }
+
+  function normalizePhone(value) {
+    const phone = (value || '').toString().trim();
+    const digits = phone.replace(/\D/g, '');
+    return digits.length >= 10 ? phone : '';
+  }
+
+  function buildLeadPayload(form) {
+    const formData = new FormData(form);
+    const params = new URLSearchParams(window.location.search);
+    const platform = detectLeadPlatform();
+
+    return {
+      name: (formData.get('name') || '').toString().trim(),
+      email: (formData.get('email') || '').toString().trim(),
+      phone: normalizePhone(formData.get('phone')),
+      address: (formData.get('address') || '').toString().trim(),
+      city: (formData.get('city') || '').toString().trim(),
+      service: (formData.get('service') || '').toString().trim(),
+      budget: (formData.get('budget') || '').toString().trim(),
+      timeline: (formData.get('timeline') || '').toString().trim(),
+      message: (formData.get('message') || '').toString().trim(),
+      how_did_you_hear: (formData.get('source') || '').toString().trim(),
+      consent_transactional: getCheckedValue(form, 'consent_transactional'),
+      consent_marketing: getCheckedValue(form, 'consent_marketing'),
+      PLATAFORMA: platform,
+      FONTE: window.location.href,
+      source: 'site',
+      source_detail: 'premiumprocontractors.com',
+      tags: ['site', 'premium pro', platform === 'ORGANIC' ? 'lp organic' : 'lp ' + platform.toLowerCase()],
+      pipeline_stage: 'Novos leads',
+      page_name: document.title,
+      page_path: window.location.pathname,
+      utm_source: params.get('utm_source') || '',
+      utm_medium: params.get('utm_medium') || '',
+      utm_campaign: params.get('utm_campaign') || '',
+      utm_content: params.get('utm_content') || '',
+      utm_term: params.get('utm_term') || ''
+    };
+  }
+
+  async function sendLeadToCrm(payload) {
+    if (!CRM_WEBHOOK_URL) {
+      throw new Error('CRM webhook not configured');
+    }
+
+    const response = await fetch(CRM_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error('CRM webhook HTTP ' + response.status);
+    }
+  }
+
   document.querySelectorAll('form[data-feedback]').forEach(function (form) {
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', async function (e) {
       e.preventDefault();
-      const msg = form.querySelector('.form__success');
-      if (msg) {
+      const button = form.querySelector('[type="submit"]');
+      const msg = getFormMessage(form, '.form__success');
+      const originalText = button ? button.textContent : '';
+
+      if (button) {
+        button.disabled = true;
+        button.textContent = 'Sending...';
+      }
+
+      try {
+        await sendLeadToCrm(buildLeadPayload(form));
         form.style.display = 'none';
-        msg.style.display  = 'block';
+        if (msg) msg.style.display = 'block';
+      } catch (error) {
+        console.error(error);
+        alert('We could not send your request right now. Please call Premium Pro Contractors at +1 (617) 501-2989 or email contact@premiumprocontractors.com.');
+        if (button) {
+          button.disabled = false;
+          button.textContent = originalText;
+        }
       }
     });
   });
