@@ -156,29 +156,22 @@
           <!-- Lead Card -->
           <div class="lead-card reveal">
             <div class="lead-card__title">Get a Free Estimate</div>
-            <div class="lead-card__sub">Tell us about your project. We respond within 24 hours.</div>
-            <!-- GHL Form embed goes here. Placeholder form below: -->
-            <form data-feedback action="#" method="POST">
-              <div class="form__row">
-                <div class="form__field"><label for="h-name">Full Name *</label><input type="text" id="h-name" name="name" required placeholder="John Smith"></div>
-                <div class="form__field"><label for="h-phone">Phone (optional)</label><input type="tel" id="h-phone" name="phone" placeholder="(617) 555-0100"></div>
-              </div>
-              <div class="form__field"><label for="h-email">Email *</label><input type="email" id="h-email" name="email" required placeholder="john@email.com"></div>
-              <div class="form__row">
-                <div class="form__field">
-                  <label for="h-city">City / Town *</label>
-                  <select id="h-city" name="city" required>
-                    <option value="">Select city...</option>
-                    <option>Marblehead</option><option>Swampscott</option><option>Lynnfield</option>
-                    <option>Danvers</option><option>Beverly</option><option>Peabody</option>
-                    <option>Salem</option><option>Saugus</option><option>Nahant</option>
-                    <option>Revere</option><option>Lynn</option><option>Other</option>
-                  </select>
+            <div class="lead-card__sub">Answer one question at a time. Your request goes straight to our CRM.</div>
+            <form data-feedback data-step-form action="#" method="POST">
+              <div class="form-progress" aria-label="Estimate request progress">
+                <div class="form-progress__bar"><span></span></div>
+                <div class="form-progress__steps">
+                  <span class="active">Service</span>
+                  <span>Name</span>
+                  <span>Phone</span>
+                  <span>Email</span>
                 </div>
+              </div>
+              <div class="form-step active" data-step="0">
                 <div class="form__field">
-                  <label for="h-service">Service Needed *</label>
+                  <label for="h-service">What do you need help with? *</label>
                   <select id="h-service" name="service" required>
-                    <option value="">Select service...</option>
+                    <option value="">Select a service...</option>
                     <option>Kitchen Remodeling</option><option>Bathroom Remodeling</option>
                     <option>Home Additions</option><option>Interior Painting</option>
                     <option>Exterior Painting</option><option>Cabinet Painting</option>
@@ -188,33 +181,29 @@
                   </select>
                 </div>
               </div>
-              <div class="form__field">
-                <label for="h-budget">Project Budget</label>
-                <select id="h-budget" name="budget">
-                  <option value="">Select range...</option>
-                  <option>Under $10,000</option><option>$10,000 – $25,000</option>
-                  <option>$25,000 – $50,000</option><option>$50,000 – $100,000</option>
-                  <option>Over $100,000</option><option>Not sure yet</option>
-                </select>
+              <div class="form-step" data-step="1">
+                <div class="form__field"><label for="h-name">What is your name? *</label><input type="text" id="h-name" name="name" required placeholder="John Smith" autocomplete="name"></div>
               </div>
-              <div class="form__field"><label for="h-msg">Tell us about your project</label><textarea id="h-msg" name="message" placeholder="Describe what you're looking to do..."></textarea></div>
-              <!-- A2P consent — telefone opcional + 2 checkboxes separados, não pré-marcados -->
-              <div class="form__consent" style="margin:18px 0; display:flex; flex-direction:column; gap:12px;">
-                <label style="display:flex; gap:10px; align-items:flex-start; font-size:13px; line-height:1.5; color:var(--gray-700);">
-                  <input type="checkbox" name="consent_transactional" value="yes" style="margin-top:3px; flex-shrink:0;">
-                  <span>By checking this optional box, I consent to receive transactional text messages related to my estimate, appointments, or services I have requested from <strong>Premium Painting &amp; Carpentry Corp (DBA Premium Pro Contractors)</strong>, including reminders, confirmations, and project updates. I understand my phone number is optional and this consent is not required to request an estimate or purchase services. Message frequency may vary. Message &amp; data rates may apply. Reply HELP for help or STOP to opt out.</span>
-                </label>
-                <label style="display:flex; gap:10px; align-items:flex-start; font-size:13px; line-height:1.5; color:var(--gray-700);">
-                  <input type="checkbox" name="consent_marketing" value="yes" style="margin-top:3px; flex-shrink:0;">
-                  <span>By checking this optional box, I consent to receive marketing and promotional text messages, including special offers and seasonal updates, from <strong>Premium Painting &amp; Carpentry Corp (DBA Premium Pro Contractors)</strong>. I understand my phone number is optional and this consent is not required to request an estimate or purchase services. Message frequency may vary. Message &amp; data rates may apply. Reply HELP for help or STOP to opt out.</span>
-                </label>
-                <p class="form__note">SMS consent is optional. Mobile opt-in data and SMS consent are not shared with third parties or affiliates for marketing or promotional purposes. See our <a href="privacy-policy.html">Privacy Policy</a> and <a href="terms.html">Terms &amp; Conditions</a>.</p>
+              <div class="form-step" data-step="2">
+                <div class="form__field"><label for="h-phone">What number should we call or text? *</label><input type="tel" id="h-phone" name="phone" required placeholder="(617) 555-0100" autocomplete="tel"></div>
               </div>
-              <button class="btn btn--primary btn--block" type="submit">Send My Free Estimate Request</button>
+              <div class="form-step" data-step="3">
+                <div class="form__field"><label for="h-email">What is your email? *</label><input type="email" id="h-email" name="email" required placeholder="john@email.com" autocomplete="email"></div>
+                <p class="form__note">By submitting, you agree to our <a href="privacy-policy.html">Privacy Policy</a> and <a href="terms.html">Terms &amp; Conditions</a>. We use your contact information only to respond to your request.</p>
+              </div>
+              <div class="form-nav">
+                <button class="btn btn--ghost form-prev" type="button">Back</button>
+                <button class="btn btn--primary btn--block form-next" type="button">Next</button>
+                <button class="btn btn--primary btn--block form-submit" type="submit">Send Request</button>
+              </div>
             </form>
             <div class="form__success" style="display:none; padding: 20px 0; text-align:center;">
-              <p style="font-size:1.1rem; font-weight:700; color:#16a34a; margin-bottom:8px;">✅ Request Received!</p>
-              <p>Thanks! Claudiney or our team will reach out within 24 hours.</p>
+              <p style="font-size:1.1rem; font-weight:700; color:#16a34a; margin-bottom:8px;">Request received.</p>
+              <p>Claudiney or our team will reach out within 24 hours.</p>
+              <div class="form__quick-actions">
+                <a class="btn btn--ghost btn--block" href="tel:+16175012989">Call Now</a>
+                <a class="btn btn--primary btn--block" href="https://wa.me/16175012989" target="_blank" rel="noopener">Send a Message</a>
+              </div>
             </div>
           </div>
         </div>

@@ -347,6 +347,102 @@ p { font-size: 1rem; color: var(--gray-700); }
 .form__field textarea { resize: vertical; min-height: 90px; }
 .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .form__note { font-size: 11px; color: var(--gray-500); margin-top: 12px; text-align: center; line-height: 1.5; }
+.form-progress {
+  margin: 2px 0 22px;
+}
+.form-progress__bar {
+  height: 6px;
+  background: var(--gray-200);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.form-progress__bar span {
+  display: block;
+  width: 25%;
+  height: 100%;
+  background: var(--red);
+  border-radius: inherit;
+  transition: width .25s ease;
+}
+.form-progress__steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray-400);
+  text-align: center;
+}
+.form-progress__steps span {
+  position: relative;
+  padding-top: 24px;
+}
+.form-progress__steps span::before {
+  content: counter(step);
+  counter-increment: step;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  background: var(--gray-300);
+  color: var(--white);
+  font-size: 10px;
+  line-height: 18px;
+}
+.form-progress__steps {
+  counter-reset: step;
+}
+.form-progress__steps span.active,
+.form-progress__steps span.done {
+  color: var(--black);
+}
+.form-progress__steps span.active::before,
+.form-progress__steps span.done::before {
+  background: var(--black);
+}
+.form-step {
+  display: none;
+  min-height: 104px;
+}
+.form-step.active {
+  display: block;
+}
+.form-nav {
+  display: grid;
+  grid-template-columns: minmax(92px, .42fr) 1fr;
+  gap: 10px;
+  align-items: center;
+}
+.form-nav .form-submit {
+  display: none;
+}
+.form-nav.is-final .form-next {
+  display: none;
+}
+.form-nav.is-final .form-submit {
+  display: flex;
+}
+.form-nav.is-first {
+  grid-template-columns: 1fr;
+}
+.form-nav.is-first .form-prev {
+  display: none;
+}
+.form__quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+@media (max-width: 600px) {
+  .form-progress__steps { font-size: 10px; gap: 4px; }
+  .form-nav { grid-template-columns: 1fr; }
+  .form__quick-actions { grid-template-columns: 1fr; }
+}
 
 /* ============ TRUST STRIP ============ */
 .trust-strip {

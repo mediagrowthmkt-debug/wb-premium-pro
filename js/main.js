@@ -107,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
       service: (formData.get('service') || '').toString().trim(),
       budget: (formData.get('budget') || '').toString().trim(),
       timeline: (formData.get('timeline') || '').toString().trim(),
+      contact_preference: (formData.get('contact_preference') || '').toString().trim(),
       message: (formData.get('message') || '').toString().trim(),
       how_did_you_hear: (formData.get('source') || '').toString().trim(),
       consent_transactional: getCheckedValue(form, 'consent_transactional'),
@@ -143,6 +144,66 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  function initStepForm(form) {
+    const steps = Array.prototype.slice.call(form.querySelectorAll('.form-step'));
+    const nav = form.querySelector('.form-nav');
+    const prev = form.querySelector('.form-prev');
+    const next = form.querySelector('.form-next');
+    const progress = form.querySelector('.form-progress__bar span');
+    const labels = Array.prototype.slice.call(form.querySelectorAll('.form-progress__steps span'));
+    let current = 0;
+
+    function showStep(index) {
+      current = Math.max(0, Math.min(index, steps.length - 1));
+      steps.forEach(function (step, stepIndex) {
+        step.classList.toggle('active', stepIndex === current);
+      });
+      labels.forEach(function (label, labelIndex) {
+        label.classList.toggle('active', labelIndex === current);
+        label.classList.toggle('done', labelIndex < current);
+      });
+      if (progress) progress.style.width = ((current + 1) / steps.length * 100) + '%';
+      if (nav) {
+        nav.classList.toggle('is-first', current === 0);
+        nav.classList.toggle('is-final', current === steps.length - 1);
+      }
+      const firstField = steps[current].querySelector('input, select, textarea');
+      if (firstField) firstField.focus({ preventScroll: true });
+    }
+
+    function currentStepIsValid() {
+      const fields = Array.prototype.slice.call(steps[current].querySelectorAll('input, select, textarea'));
+      return fields.every(function (field) {
+        return field.reportValidity();
+      });
+    }
+
+    if (prev) {
+      prev.addEventListener('click', function () {
+        showStep(current - 1);
+      });
+    }
+
+    if (next) {
+      next.addEventListener('click', function () {
+        if (currentStepIsValid()) showStep(current + 1);
+      });
+    }
+
+    steps.forEach(function (step) {
+      step.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' && current < steps.length - 1) {
+          event.preventDefault();
+          if (currentStepIsValid()) showStep(current + 1);
+        }
+      });
+    });
+
+    showStep(0);
+  }
+
+  document.querySelectorAll('form[data-step-form]').forEach(initStepForm);
+
   document.querySelectorAll('form[data-feedback]').forEach(function (form) {
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -157,8 +218,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
       try {
         await sendLeadToCrm(buildLeadPayload(form));
-        form.style.display = 'none';
-        if (msg) msg.style.display = 'block';
+        if (msg && form.contains(msg)) {
+          Array.prototype.forEach.call(form.children, function (child) {
+            if (child !== msg) child.style.display = 'none';
+          });
+          msg.style.display = 'block';
+        } else {
+          form.style.display = 'none';
+          if (msg) msg.style.display = 'block';
+        }
       } catch (error) {
         console.error(error);
         alert('We could not send your request right now. Please call Premium Pro Contractors at +1 (617) 501-2989 or email contact@premiumprocontractors.com.');

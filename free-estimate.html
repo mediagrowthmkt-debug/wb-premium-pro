@@ -90,29 +90,22 @@
             </div>
 
             <h2 style="margin-bottom:8px;">Tell Us About Your Project</h2>
-            <p style="color:var(--gray-500); margin-bottom:28px;">Fill out the form below. The more details, the better we can prepare for the visit.</p>
+            <p style="color:var(--gray-500); margin-bottom:28px;">Answer one question at a time. Your request goes straight to our CRM.</p>
 
-            <form data-feedback action="thank-you.html" method="get">
-              <div class="form__row">
-                <div class="form__field"><label>Full Name *</label><input type="text" name="name" required placeholder="John Smith"></div>
-                <div class="form__field"><label>Phone (optional)</label><input type="tel" name="phone" placeholder="(617) 000-0000"></div>
-              </div>
-              <div class="form__row">
-                <div class="form__field"><label>Email *</label><input type="email" name="email" required placeholder="you@email.com"></div>
-                <div class="form__field"><label>City / Town *</label>
-                  <select name="city" required>
-                    <option value="">Select city...</option>
-                    <option>Marblehead</option><option>Swampscott</option><option>Lynnfield</option>
-                    <option>Danvers</option><option>Beverly</option><option>Peabody</option>
-                    <option>Salem</option><option>Saugus</option><option>Nahant</option>
-                    <option>Revere</option><option>Lynn</option><option>Other</option>
-                  </select>
+            <form data-feedback data-step-form action="thank-you.html" method="get">
+              <div class="form-progress" aria-label="Estimate request progress">
+                <div class="form-progress__bar"><span></span></div>
+                <div class="form-progress__steps">
+                  <span class="active">Service</span>
+                  <span>Name</span>
+                  <span>Phone</span>
+                  <span>Email</span>
                 </div>
               </div>
-              <div class="form__row">
-                <div class="form__field"><label>Service Needed *</label>
+              <div class="form-step active" data-step="0">
+                <div class="form__field"><label>What do you need help with? *</label>
                   <select name="service" required>
-                    <option value="">Select service...</option>
+                    <option value="">Select a service...</option>
                     <option>Kitchen Remodeling</option><option>Bathroom Remodeling</option>
                     <option>Home Additions</option><option>Interior Painting</option>
                     <option>Exterior Painting</option><option>Cabinet Painting</option>
@@ -121,39 +114,29 @@
                     <option>Power Washing</option><option>Multiple Services</option>
                   </select>
                 </div>
-                <div class="form__field"><label>Project Budget</label>
-                  <select name="budget">
-                    <option value="">Select range...</option>
-                    <option>Under $10,000</option><option>$10,000 – $25,000</option>
-                    <option>$25,000 – $50,000</option><option>$50,000 – $100,000</option>
-                    <option>Over $100,000</option><option>Not sure yet</option>
-                  </select>
-                </div>
               </div>
-              <div class="form__row">
-                <div class="form__field"><label>Timeline</label>
-                  <select name="timeline">
-                    <option value="">Select...</option>
-                    <option>ASAP</option><option>Within 1–3 months</option>
-                    <option>Within 3–6 months</option><option>Just exploring options</option>
-                  </select>
-                </div>
-                <div class="form__field"><label>How did you hear about us?</label>
-                  <select name="source">
-                    <option value="">Select...</option>
-                    <option>Google Search</option><option>Google Maps</option>
-                    <option>Friend / Referral</option><option>Instagram</option>
-                    <option>Facebook</option><option>Yelp</option><option>Other</option>
-                  </select>
-                </div>
+              <div class="form-step" data-step="1">
+                <div class="form__field"><label>What is your name? *</label><input type="text" name="name" required placeholder="John Smith" autocomplete="name"></div>
               </div>
-              <div class="form__field"><label>Tell us about your project</label><textarea name="message" rows="5" placeholder="Describe the project — what you want to do, the current state, any specific concerns or ideas. The more detail, the better we can prepare for the visit."></textarea></div>
-              <p class="form__note">By submitting, you agree to our <a href="privacy-policy.html">Privacy Policy</a> and <a href="terms.html">Terms &amp; Conditions</a>.</p>
-              <button type="submit" class="btn btn--primary btn--block" style="font-size:16px; padding:18px;">Send My Free Estimate Request →</button>
+              <div class="form-step" data-step="2">
+                <div class="form__field"><label>What number should we call or text? *</label><input type="tel" name="phone" required placeholder="(617) 000-0000" autocomplete="tel"></div>
+              </div>
+              <div class="form-step" data-step="3">
+                <div class="form__field"><label>What is your email? *</label><input type="email" name="email" required placeholder="you@email.com" autocomplete="email"></div>
+                <p class="form__note">By submitting, you agree to our <a href="privacy-policy.html">Privacy Policy</a> and <a href="terms.html">Terms &amp; Conditions</a>. We use your contact information only to respond to your request.</p>
+              </div>
+              <div class="form-nav">
+                <button class="btn btn--ghost form-prev" type="button">Back</button>
+                <button class="btn btn--primary btn--block form-next" type="button">Next</button>
+                <button type="submit" class="btn btn--primary btn--block form-submit" style="font-size:16px; padding:18px;">Send Request</button>
+              </div>
               <div class="form__success" style="display:none; padding:32px; background:var(--offwhite); border-radius:6px; text-align:center;">
                 <h3 style="color:var(--black); margin-bottom:10px;">Got It. We're On It.</h3>
-                <p>Thanks for reaching out. Claudiney or our team will call you within 24 hours.</p>
-                <a class="btn btn--outline" href="index.html" style="margin-top:20px;">Back to Home</a>
+                <p>Thanks for reaching out. Claudiney or our team will contact you within 24 hours.</p>
+                <div class="form__quick-actions">
+                  <a class="btn btn--outline" href="tel:+16175012989">Call Now</a>
+                  <a class="btn btn--primary" href="https://wa.me/16175012989" target="_blank" rel="noopener">Send a Message</a>
+                </div>
               </div>
             </form>
           </div>
