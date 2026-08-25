@@ -93,21 +93,6 @@ document.addEventListener('DOMContentLoaded', function () {
     return digits.length >= 10 ? phone : '';
   }
 
-  function trackGaEvent(eventName, params) {
-    if (typeof window.gtag !== 'function') return;
-    window.gtag('event', eventName, Object.assign({
-      page_location: window.location.href,
-      page_path: window.location.pathname,
-      page_title: document.title,
-      transport_type: 'beacon'
-    }, params || {}));
-  }
-
-  function getCtaLabel(link) {
-    const text = (link.textContent || '').replace(/\s+/g, ' ').trim();
-    return text || link.getAttribute('aria-label') || link.getAttribute('href') || '';
-  }
-
   function buildLeadPayload(form) {
     const formData = new FormData(form);
     const params = new URLSearchParams(window.location.search);
@@ -233,11 +218,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
       try {
         await sendLeadToCrm(buildLeadPayload(form));
-        trackGaEvent('form_submit_free_estimate', {
-          form_id: form.id || '',
-          form_name: form.getAttribute('name') || 'premium_pro_lead_form',
-          lead_platform: detectLeadPlatform()
-        });
         if (msg && form.contains(msg)) {
           Array.prototype.forEach.call(form.children, function (child) {
             if (child !== msg) child.style.display = 'none';
@@ -255,51 +235,6 @@ document.addEventListener('DOMContentLoaded', function () {
           button.textContent = originalText;
         }
       }
-    });
-  });
-
-  document.addEventListener('click', function (event) {
-    const link = event.target.closest('a[href]');
-    if (!link) return;
-
-    const href = link.getAttribute('href') || '';
-    const normalizedHref = href.toLowerCase();
-    const ctaParams = {
-      link_url: link.href,
-      link_text: getCtaLabel(link),
-      cta_location: link.closest('.header') ? 'header'
-        : link.closest('.footer') ? 'footer'
-        : link.classList.contains('float-call') || link.classList.contains('float-wa') ? 'floating'
-        : link.closest('.hero') ? 'hero'
-        : link.closest('.cta-strip') ? 'cta_strip'
-        : 'body'
-    };
-
-    if (normalizedHref.indexOf('tel:') === 0) {
-      trackGaEvent('click_call', Object.assign({ phone_number: href.replace(/^tel:/i, '') }, ctaParams));
-      return;
-    }
-
-    if (normalizedHref.indexOf('wa.me/') !== -1 || normalizedHref.indexOf('api.whatsapp.com') !== -1) {
-      trackGaEvent('click_whatsapp', ctaParams);
-      return;
-    }
-
-    if (normalizedHref.indexOf('free-estimate') !== -1) {
-      trackGaEvent('click_free_estimate', ctaParams);
-    }
-  });
-
-  document.querySelectorAll('form[data-feedback]').forEach(function (form) {
-    let started = false;
-    form.addEventListener('focusin', function () {
-      if (started) return;
-      started = true;
-      trackGaEvent('form_start_free_estimate', {
-        form_id: form.id || '',
-        form_name: form.getAttribute('name') || 'premium_pro_lead_form',
-        lead_platform: detectLeadPlatform()
-      });
     });
   });
 
