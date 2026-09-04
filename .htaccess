@@ -7,8 +7,15 @@ RewriteEngine On
 RewriteCond %{THE_REQUEST} \s/(.+?)\.html[\s?] [NC]
 RewriteRule ^ /%1 [R=301,L]
 
-# --- Discontinued pages: tell Google they are gone (410) ---
-RewriteRule ^service-areas/saugus(\.html)?/?$ - [G]
+# --- Onda 3: consolidate thin duplicate pages (301 to the strong page) ---
+RewriteRule ^services/general-contractor-peabody/?$ /service-areas/peabody [R=301,L]
+RewriteRule ^services/general-contractor-wakefield/?$ /service-areas/wakefield [R=301,L]
+RewriteRule ^services/general-contractor-saugus/?$ /service-areas/saugus [R=301,L]
+RewriteRule ^services/general-contractor-middleton/?$ /service-areas/middleton [R=301,L]
+RewriteRule ^services/home-remodeling-lynnfield/?$ /service-areas/lynnfield [R=301,L]
+RewriteRule ^services/home-remodeling-peabody/?$ /service-areas/peabody [R=301,L]
+RewriteRule ^services/home-remodeling-middleton/?$ /service-areas/middleton [R=301,L]
+RewriteRule ^services/painting-company-peabody/?$ /services/interior-painting [R=301,L]
 
 # Serve clean SEO URLs such as /services/kitchen-remodeling
 # from the existing static HTML files.
